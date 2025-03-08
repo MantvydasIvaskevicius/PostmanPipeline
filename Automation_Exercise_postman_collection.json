@@ -1,0 +1,1862 @@
+{
+	"info": {
+		"_postman_id": "dc540c70-e504-46ce-9bb1-0e19d7214c39",
+		"name": "Automation Exercise",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41080144"
+	},
+	"item": [
+		{
+			"name": "Products List",
+			"item": [
+				{
+					"name": "Get All Products List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response contains products list\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"products\");",
+									"    pm.expect(jsonData.products).to.be.an(\"array\").that.is.not.empty;",
+									"});",
+									"",
+									"const respData = pm.response.json()",
+									"pm.test(\"Product IDs are unique\", function () {",
+									"    const products = respData.products;",
+									"    pm.expect(products).to.be.an(\"array\");",
+									"    const ids = products.map(function(product) {",
+									"        return product.id;",
+									"    });",
+									"    const uniqueIds = new Set(ids);",
+									"    pm.expect(uniqueIds.size).to.eql(ids.length);",
+									"});",
+									" ",
+									"",
+									"",
+									"// pm.test(\"Product IDs are unique\",()=>{",
+									"//     let jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.products).to.be.an(\"array\");",
+									"//     const ids = jsonData.products.map(()=>{",
+									"//         return jsonData.product.id",
+									"//     })",
+									"//     const uniqueIds = new Set(ids);",
+									"//     pm.expect(uniqueIds.size).to.eql(ids.lenght)",
+									"// }) nesuprantu kas negerai",
+									"",
+									"",
+									"pm.test(\"Products list have atleast one product with all properties\", ()=>{",
+									"    let jsonData = pm.response.json();",
+									"    jsonData.products.forEach((product)=>{",
+									"        pm.expect(product).to.have.property('id');",
+									"        pm.expect(product).to.have.property('name');",
+									"        pm.expect(product).to.have.property('price');",
+									"        pm.expect(product).to.have.property('brand');",
+									"        pm.expect(product).to.have.property('category');",
+									"        pm.expect(product.category).to.have.property('usertype');",
+									"        pm.expect(product.category.usertype).to.have.property('usertype');",
+									"        pm.expect(product.category).to.have.property('category');",
+									"",
+									"",
+									"    })",
+									"})",
+									"",
+									"pm.test(\"Products in list have correct type of properties values\", ()=>{",
+									"    let jsonData = pm.response.json();",
+									"    jsonData.products.forEach((product)=>{",
+									"pm.expect(product.id).to.be.a('number');",
+									"pm.expect(product.name).to.be.a('string');",
+									"pm.expect(product.price).to.be.a('string');",
+									"pm.expect(product.brand).to.be.a('string');",
+									"pm.expect(product.category).to.be.a('object');",
+									"pm.expect(product.category.usertype).to.be.a('object');",
+									"pm.expect(product.category.usertype.usertype).to.be.a('string');",
+									"pm.expect(product.category.category).to.be.a('string');",
+									"",
+									"    })",
+									"})",
+									"",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/productsList",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productsList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST To All Products List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 405);",
+									"});",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"This request method is not supported.\");",
+									"});",
+									"",
+									"pm.test(\"Response is JSON\", function(){",
+									"    pm.response.to.be.json",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \n            \"name\": \"Blue Top\",\n            \"price\": \"Rs. 500\",\n            \"brand\": \"Polo\",\n            \"category\": {\n                \"usertype\": {\n                    \"usertype\": \"Women\"\n                },\n                \"category\": \"Tops\"\n            }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/productsList",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"productsList"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Search Product",
+			"item": [
+				{
+					"name": "POST To Search without search_product parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 400);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"Bad request, search_product parameter is missing in POST request.\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/searchProduct",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"searchProduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST To Search Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 200);",
+									"});",
+									"",
+									"pm.test(\"Response contains products and it's an array\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"products\");",
+									"    pm.expect(jsonData.products).to.be.an(\"array\");",
+									"",
+									"});",
+									"pm.test(\"A search product have all properties\", ()=>{",
+									"    let jsonData = pm.response.json();",
+									"    jsonData.products.forEach((product)=>{",
+									"        pm.expect(product).to.have.property('id');",
+									"        pm.expect(product).to.have.property('name');",
+									"        pm.expect(product).to.have.property('price');",
+									"        pm.expect(product).to.have.property('brand');",
+									"        pm.expect(product).to.have.property('category');",
+									"        pm.expect(product.category).to.have.property('usertype');",
+									"        pm.expect(product.category.usertype).to.have.property('usertype');",
+									"        pm.expect(product.category).to.have.property('category');",
+									"",
+									"    })",
+									"",
+									"})",
+									"",
+									"// pm.test(\"A search term is mentioned in the product name\", () => {",
+									"//     let jsonData = pm.response.json();",
+									"//     const searchTerm = \"top\".toLowerCase(); // Paieškos terminas",
+									"",
+									"//     jsonData.products.forEach((product) => {",
+									"//         // Patikriname, ar produkto pavadinime yra paieškos terminas",
+									"//         const nameIncludesSearchTerm = product.name.toLowerCase().includes(searchTerm);",
+									"",
+									"//         pm.expect(nameIncludesSearchTerm).to.be.true;",
+									"//     });",
+									"// });",
+									"",
+									" ",
+									"pm.test(\"A search term is mentioned in the product name or category\", () => {",
+									"    let jsonData = pm.response.json();",
+									"    jsonData.products.forEach((product) => {",
+									"        const nameIncludesTop = product.name.toLowerCase().includes(pm.collectionVariables.get(\"search_product\"));",
+									"        const categoryIncludesTop = product.category.category.toLowerCase().includes(pm.collectionVariables.get(\"search_product\"));",
+									" ",
+									"        pm.expect(nameIncludesTop || categoryIncludesTop).to.be.true;",
+									"    });",
+									"})",
+									"",
+									" ",
+									"",
+									"",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "search_product",
+									"value": "{{search_product}}",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/searchProduct",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"searchProduct"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Negative POST To Search Product Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 200);",
+									"});",
+									"",
+									"pm.test(\"Response contains products and it's an empty array\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"products\");",
+									"    pm.expect(jsonData.products).to.be.an(\"array\");",
+									"    pm.expect(jsonData.products).to.have.lengthOf(0);",
+									"",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "search_product",
+									"value": "hat",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/searchProduct",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"searchProduct"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2 Negative POST To Search Product Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 400);",
+									"});",
+									"",
+									"pm.test(\"Response contains products and it's an empty array\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"Bad request, search_product parameter is missing in POST request.\");",
+									"   ",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "search_product",
+									"value": "hat",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/searchProduct",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"searchProduct"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Brands List",
+			"item": [
+				{
+					"name": "Get All Brands List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 200);",
+									"});",
+									"",
+									"pm.test(\"Response contains brands\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"brands\");",
+									"    pm.expect(jsonData.brands).to.be.an(\"array\");",
+									"});",
+									"",
+									"pm.test(\"Brands have all properties\", ()=>{",
+									"    let jsonData = pm.response.json();",
+									"    jsonData.brands.forEach((brand)=>{",
+									"        pm.expect(brand).to.have.property('id')",
+									"        pm.expect(brand).to.have.property('brand')",
+									"    })",
+									"",
+									"})",
+									"",
+									"pm.test(\"Brands have correct values \", ()=>{",
+									"    let jsonData = pm.response.json();",
+									"    jsonData.brands.forEach((brand)=>{",
+									"        pm.expect(brand.id).to.be.a('number')",
+									"        pm.expect(brand.brand).to.be.a('string')",
+									"    })",
+									"",
+									"})",
+									"",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/brandsList",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"brandsList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT To All Brands List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 405);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"This request method is not supported.\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \n            \"name\": \"Grey Top\",\n            \"price\": \"Rs. 300\",\n            \"brand\": \"Guess\",\n            \"category\": {\n                \"usertype\": {\n                    \"usertype\": \"Women\"\n                },\n                \"category\": \"Tops\"\n            }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/brandsList",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"brandsList"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "POST To Verify Login with valid details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\",   200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"User exists!\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "bebras@gmailll.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "bebriukas",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/verifyLogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"verifyLogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST To Verify Login without email parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 400);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"Bad request, email or password parameter is missing in POST request.\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "bebriukas",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/verifyLogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"verifyLogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE To Verify Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 405);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"This request method is not supported.\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/verifyLogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"verifyLogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST To Verify Login with invalid details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 404);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"User not found!\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "mama@mama.lt",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "mamyte",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/verifyLogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"verifyLogin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create.Update.Get User",
+			"item": [
+				{
+					"name": "POST To Create/Register User Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 201);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"User created!\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "patricija",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "patricija@patricija.lt",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "celiesiute",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Mrs",
+									"type": "text"
+								},
+								{
+									"key": "birth_date",
+									"value": "11",
+									"type": "text"
+								},
+								{
+									"key": "birth_month",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "birth_year",
+									"value": "2016",
+									"type": "text"
+								},
+								{
+									"key": "firstname",
+									"value": "Patricija",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "Celiesiute",
+									"type": "text"
+								},
+								{
+									"key": "company",
+									"value": "tutu",
+									"type": "text"
+								},
+								{
+									"key": "address1",
+									"value": "Dariaus ir Gireno",
+									"type": "text"
+								},
+								{
+									"key": "address2",
+									"value": "23",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "Lietuva",
+									"type": "text"
+								},
+								{
+									"key": "zipcode",
+									"value": "59212",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "Kauno r.",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "Birstonas",
+									"type": "text"
+								},
+								{
+									"key": "mobile_number",
+									"value": "123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/createAccount",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"createAccount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Negative POST To Create/Register User Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 400);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"Bad request, firstname parameter is missing in POST request.\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "kazkassr9",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "kazkayss@kazkas.ltsr999",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "kazkas",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Mrs",
+									"type": "text"
+								},
+								{
+									"key": "birth_date",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "birth_month",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "birth_year",
+									"value": "20677",
+									"type": "text"
+								},
+								{
+									"key": "firstname",
+									"value": "kazkas",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "lastname",
+									"value": "kazkas",
+									"type": "text"
+								},
+								{
+									"key": "company",
+									"value": "kazkas",
+									"type": "text"
+								},
+								{
+									"key": "address1",
+									"value": "kazkas",
+									"type": "text"
+								},
+								{
+									"key": "address2",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "Lietuva",
+									"type": "text"
+								},
+								{
+									"key": "zipcode",
+									"value": "59212",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "Kazkas",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "Kazkas",
+									"type": "text"
+								},
+								{
+									"key": "mobile_number",
+									"value": "123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/createAccount",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"createAccount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT METHOD To Update User Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"User updated!\");",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "patricija",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "patricija@patricija.lt",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "celiesiute",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Mr",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/updateAccount",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"updateAccount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET user account detail by email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 200);",
+									"});",
+									"",
+									"pm.test(\"Response has user and it is an object\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"user\").and.be.an('object')",
+									"});",
+									"",
+									"",
+									"pm.test(\"User has all correct properties\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"user\");",
+									"    const expectedProperties = [\"id\", \"name\", \"email\", \"title\", \"birth_day\", \"birth_month\", \"birth_year\", \"first_name\", \"last_name\", \"company\", \"address1\", \"address2\", \"country\", \"state\", \"city\", \"zipcode\"];",
+									"    expectedProperties.forEach(property => {",
+									"        pm.expect(jsonData.user).to.have.property(property);",
+									"    });",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/getUserDetailByEmail?email=patricija@patricija.lt",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"getUserDetailByEmail"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "patricija@patricija.lt"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Negative GET user account detail by email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 404);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"Account not found with this email, try another email!\");",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/getUserDetailByEmail?email=emeilas@patricija.lt",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"getUserDetailByEmail"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "emeilas@patricija.lt"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Patricija",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"Account deleted!\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "patricija@patricija.lt",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "celiesiute",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deleteAccount\n",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deleteAccount\n"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Negative DELETE tokionera",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 404);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"Account not found!\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "tokionera@tokionera.lt",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "tokionera",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deleteAccount\n",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deleteAccount\n"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete User",
+			"item": [
+				{
+					"name": "POST To Create/Register User Account Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 201);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"User created!\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "laura",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "laura@laura.lt",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "lauriute",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Mrs",
+									"type": "text"
+								},
+								{
+									"key": "birth_date",
+									"value": "15",
+									"type": "text"
+								},
+								{
+									"key": "birth_month",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "birth_year",
+									"value": "2010",
+									"type": "text"
+								},
+								{
+									"key": "firstname",
+									"value": "Laura",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "Lauriute",
+									"type": "text"
+								},
+								{
+									"key": "company",
+									"value": "tutu",
+									"type": "text"
+								},
+								{
+									"key": "address1",
+									"value": "Lauryno",
+									"type": "text"
+								},
+								{
+									"key": "address2",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "Lietuva",
+									"type": "text"
+								},
+								{
+									"key": "zipcode",
+									"value": "59212",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "Kauno r.",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "Birstonas",
+									"type": "text"
+								},
+								{
+									"key": "mobile_number",
+									"value": "123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/createAccount",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"createAccount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE METHOD To Delete User Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response code\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"responseCode\", 200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"message\", \"Account deleted!\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "laura@laura.lt",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "lauriute",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deleteAccount\n",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deleteAccount\n"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://automationexercise.com/api",
+			"type": "string"
+		},
+		{
+			"key": "search_product",
+			"value": "top",
+			"type": "string"
+		}
+	]
+}
